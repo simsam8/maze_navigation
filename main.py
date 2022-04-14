@@ -1,13 +1,13 @@
 import pygame
-from map import lvl1, lvl2
+import map
+
 
 pygame.init()
 
 SCREEN_INFO = pygame.display.Info()
-WIDTH = SCREEN_INFO.current_w*0.8
-HEIGHT = SCREEN_INFO.current_h
+WIDTH = SCREEN_INFO.current_w*0.3
+HEIGHT = SCREEN_INFO.current_h*0.3
 RATIO = WIDTH/HEIGHT
-#print(RATIO)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Mazerunner')
@@ -52,13 +52,13 @@ class Maze():
             
             
         for x in blocks:
-            pygame.draw.rect(screen, self.color, x, width=25)
+            pygame.draw.rect(screen, self.color, x, width=10)
         
     
     def print_dim(self):
         print(self.map_width, self.map_height)
 
-lab = Maze(lvl1)
+lab = Maze(map.random)
 
 
 def loop():
