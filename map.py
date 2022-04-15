@@ -19,7 +19,7 @@ lv = [[1,0,1,1,1],
       [1,0,1,0,1]]
 
 
-random = mg.gm(5,5)
+random = mg.gm(27,11)
 
 
 if __name__ == '__main__':
