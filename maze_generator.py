@@ -29,6 +29,55 @@ def gm(width, height):
             line.append(wall)
         maze.append(line)
     
+    # Choose a random wall in the maze 
+    starting_height = int(random.random()*height)
+    starting_width = int(random.random()*width)
+    
+    # Makes sure the starting wall is not part of the outer wall
+    if starting_height == 0:
+        starting_height += 1
+    if starting_height == height-1:
+        starting_height -= 1
+    
+    if starting_width == 0:
+        starting_width += 1
+    if starting_width == width-1:
+        starting_width -= 1
+        
+    
+    # Change current wall to path and marks surrounding walls    
+    maze[starting_height][starting_width] = cell
+    walls = []
+    walls.append([starting_height-1, starting_width])
+    walls.append([starting_height, starting_width-1])
+    walls.append([starting_height, starting_width+1])
+    walls.append([starting_height+1, starting_width])
+    
+    # Denote the blocks around the starting cell as walls
+    maze[starting_height-1][starting_width]
+    maze[starting_height][starting_width-1]
+    maze[starting_height][starting_width+1]
+    maze[starting_height+1][starting_width]
+    
+    # While there are walls in the list pick a random wall from the list
+    while walls:
+        rand_wall = walls[int(random.random()*len(walls))-1]
+    
+    
+        if rand_wall[1] != 0:
+            if maze[rand_wall[0]][rand_wall[1]-1] == wall and maze[rand_wall[0]][rand_wall[1]+1] == cell:
+        
+        if rand_wall[0] != 0:        
+            if maze[rand_wall[0]-1][rand_wall[1]] == wall and maze[rand_wall[0]+1][rand_wall[1]+1] == cell:
+        
+        if rand_wall[0] != height-1:    
+            if maze[rand_wall[0]+1][rand_wall[1]] == wall and maze[rand_wall[0]-1][rand_wall[1]] == cell:
+            
+        if rand_wall[1] != width-1:    
+            if maze[rand_wall[0]][rand_wall[1]+1] == wall and maze[rand_wall[0]][rand_wall[1]-1] == cell:
+            
+    
+    
     return maze
 
 def generate_maze(width, height):
