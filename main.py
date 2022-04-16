@@ -87,18 +87,40 @@ class Player(Maze):
         super().__init__(MAP)
         self.color = blue
         self.radius = self.block_width/4
-        self.center = (start_pos(self.map)[0]*self.block_width+self.block_width/2,
-                        start_pos(self.map)[1]*self.block_height+self.block_height/2)
-        #self.center = [x*self.block_width for x in start_pos(self.map)]
+        self.position = start_pos(self.map)
+        self.center = (self.position[0]*self.block_width+self.block_width/2,
+                        self.position[1]*self.block_height+self.block_height/2)
         
     def draw(self):
         pygame.draw.circle(screen, self.color, self.center, self.radius)
+        
+    def update_pos(self, direction):
+        if direction == 'u':
+            self.position[1] -= 1
+            self.center = (self.position[0]*self.block_width+self.block_width/2,
+                        self.position[1]*self.block_height+self.block_height/2)
+        if direction == 'd':
+            self.position[1] += 1
+            self.center = (self.position[0]*self.block_width+self.block_width/2,
+                        self.position[1]*self.block_height+self.block_height/2)
+        if direction == 'l':
+            self.position[0] -= 1
+            self.center = (self.position[0]*self.block_width+self.block_width/2,
+                        self.position[1]*self.block_height+self.block_height/2)
+        if direction == 'r':
+            self.position[0] += 1
+            self.center = (self.position[0]*self.block_width+self.block_width/2,
+                        self.position[1]*self.block_height+self.block_height/2)
+        
+        
+        print(self.position)
+        print(self.center)
 
 
 lab = Maze(MAP)
 player = Player()
 
-print(player.center)
+
 
 def loop():
     
@@ -110,6 +132,17 @@ def loop():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return pygame.quit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    player.update_pos('u')
+                if event.key == pygame.K_DOWN:
+                    player.update_pos('d')
+                if event.key == pygame.K_LEFT:
+                    player.update_pos('l')
+                if event.key == pygame.K_RIGHT:
+                    player.update_pos('r')
+                    
             
         
         lab.draw()
