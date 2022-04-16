@@ -1,5 +1,5 @@
 import pygame
-import map
+import maze_generator as mg
 
 cell_colors = {
     1 : (255,255,255),
@@ -10,6 +10,7 @@ cell_colors = {
 
 pygame.init()
 
+MAP = mg.generate_maze(100,100)
 SCREEN_INFO = pygame.display.Info()
 WIDTH = SCREEN_INFO.current_w*0.5
 HEIGHT = SCREEN_INFO.current_h*0.5
@@ -28,7 +29,6 @@ class Maze():
         self.colors = cell_colors
         self.block_height = HEIGHT/self.map_height
         self.block_width = WIDTH/self.map_width
-        #print(self.block_height, self.block_width)
         
     def draw(self):
         blocks =  []
@@ -66,7 +66,7 @@ class Maze():
     def print_dim(self):
         print(self.map_width, self.map_height)
 
-lab = Maze(map.random)
+lab = Maze(MAP)
 
 
 def loop():

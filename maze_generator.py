@@ -71,7 +71,6 @@ def generate_maze(width, height):
     if starting_width == width-1:
         starting_width -= 1
         
-    print(starting_height, starting_width)
     
     # Mark it as cell and add surrounding walls to the list    
     maze[starting_height][starting_width] = CELL
