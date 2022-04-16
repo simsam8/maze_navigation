@@ -1,16 +1,22 @@
 import pygame
 import maze_generator as mg
 
+white = (255,255,255)
+black = (0,0,0)
+red = (255,0,0)
+green = (0,255,0)
+
 cell_colors = {
-    1 : (255,255,255),
-    3 : (255,0,0),
-    4 : (0,255,0)
+    1 : white,
+    3 : green,
+    4 : red
 }
+
 
 
 pygame.init()
 
-MAP = mg.generate_maze(100,100)
+MAP = mg.generate_maze(20,20)
 SCREEN_INFO = pygame.display.Info()
 WIDTH = SCREEN_INFO.current_w*0.5
 HEIGHT = SCREEN_INFO.current_h*0.5
