@@ -74,7 +74,6 @@ def loop():
     running = True
     
     screen.fill((0,0,0))
-    print(lab.map)
     
     while running:
         for event in pygame.event.get():
