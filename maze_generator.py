@@ -7,22 +7,7 @@ maze = []
 walls = []
 
 # REFRENCE: https://medium.com/swlh/fun-with-python-1-maze-generator-931639b4fb7e 
-
-# TODO: make a better solid_wall function
-def solid_wall(end, place, version):
-    place = place
-    i = 0
-    if version == 'row':
-        while i < end:
-            place[i] = 1
-            i+=1
-    
-    # implement general case for edges       
-    elif version == 'col':
-        while i < end:
-            pass
         
-
 def surrondingCells(rand_wall):
     s_cells = 0
     if (maze[rand_wall[0]-1][rand_wall[1]] == CELL):
@@ -49,18 +34,23 @@ def make_walls(width, height):
             if (maze[i][j] == UNVISIT):
                 maze[i][j] = WALL
                 
-                
+# Creates random entrance and exit
 def create_entrance_exit(width, height):
-    for i in range(0, width):
-        if (maze[1][i] == CELL):
-            maze[0][i] = 3
-            break
-    for i in range(width-1, 0, -1):
-        if (maze[height-2][i] == CELL):
-            maze[height-1][i] = 4
-            break
+    i = random.randrange(0, width)
+    while maze[1][i] != CELL:
+        i = random.randrange(0, width)
+    if (maze[1][i] == CELL):
+        maze[0][i] = 3
     
-def gm(width, height):
+            
+    j = random.randrange(0, width)
+    while maze[height-2][j] != CELL:
+        j = random.randrange(0, width)
+    if (maze[height-2][j] == CELL):
+        maze[height-1][j] = 4        
+            
+    
+def generate_maze(width, height):
 
     # Denote all cells as unvisited
     for i in range(0, height):
@@ -81,6 +71,7 @@ def gm(width, height):
     if starting_width == width-1:
         starting_width -= 1
         
+    print(starting_height, starting_width)
     
     # Mark it as cell and add surrounding walls to the list    
     maze[starting_height][starting_width] = CELL
@@ -250,30 +241,6 @@ def gm(width, height):
     
     # Set entrance and exit
     create_entrance_exit(width, height)
-    
-    return maze
-
-
-def generate_maze(width, height):
-    maze = []
-    for row in range(0, height):
-        maze.append(list())
-        for col in range(0, width):
-            maze[row].append(random.randint(0,1))
-   
-    solid_wall(len(maze[0]), maze[0], 'row')        
-    solid_wall(len(maze[len(maze)-1]), maze[len(maze)-1], 'row')
-     
-    # TODO: replace following while loops with the solid_wall function        
-    i = 0
-    while i < len(maze):
-        maze[i][0] = 1
-        i+=1
-        
-    i = 0
-    while i < len(maze):
-        maze[i][len(maze[i])-1] = 1
-        i+=1        
     
     return maze
             
