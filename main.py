@@ -1,12 +1,18 @@
 import pygame
 import map
 
+cell_colors = {
+    1 : (255,255,255),
+    3 : (255,0,0),
+    4 : (0,255,0)
+}
+
 
 pygame.init()
 
 SCREEN_INFO = pygame.display.Info()
-WIDTH = SCREEN_INFO.current_w*0.3
-HEIGHT = SCREEN_INFO.current_h*0.3
+WIDTH = SCREEN_INFO.current_w*0.5
+HEIGHT = SCREEN_INFO.current_h*0.5
 RATIO = WIDTH/HEIGHT
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -19,7 +25,7 @@ class Maze():
         self.map = map
         self.map_height = len(self.map)
         self.map_width = len(self.map[0])
-        self.color = (255,255,255)
+        self.colors = cell_colors
         self.block_height = HEIGHT/self.map_height
         self.block_width = WIDTH/self.map_width
         #print(self.block_height, self.block_width)
@@ -34,12 +40,13 @@ class Maze():
         
         for row in self.map:
             for col in row:
-                if col == 1:
-                    blocks.append(pygame.Rect(x, y, self.block_width, self.block_height))
-                else:
+                if col == 0:
                     pass
+                else:
+                    blocks.append([pygame.Rect(x, y, self.block_width, self.block_height), col])
+                
                 x += self.block_width
-                c +=1
+                c += 1
                 
                 if c == self.map_width:
                     x = 0
@@ -52,7 +59,8 @@ class Maze():
             
             
         for x in blocks:
-            pygame.draw.rect(screen, self.color, x, width=10)
+            #print(x)
+            pygame.draw.rect(screen, self.colors[x[1]], x[0], width=10)
         
     
     def print_dim(self):
@@ -66,6 +74,7 @@ def loop():
     running = True
     
     screen.fill((0,0,0))
+    print(lab.map)
     
     while running:
         for event in pygame.event.get():
