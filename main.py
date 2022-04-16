@@ -5,6 +5,7 @@ white = (255,255,255)
 black = (0,0,0)
 red = (255,0,0)
 green = (0,255,0)
+blue = (0,0,255)
 
 cell_colors = {
     1 : white,
@@ -16,7 +17,8 @@ cell_colors = {
 
 pygame.init()
 
-MAP = mg.generate_maze(20,20)
+MAP_WIDTH, MAP_HEIGHT = 10, 10
+MAP = mg.generate_maze(MAP_WIDTH, MAP_HEIGHT)
 SCREEN_INFO = pygame.display.Info()
 WIDTH = SCREEN_INFO.current_w*0.5
 HEIGHT = SCREEN_INFO.current_h*0.5
@@ -25,7 +27,14 @@ RATIO = WIDTH/HEIGHT
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Mazerunner')
 
-
+# Find start position in maze
+def start_pos(map):
+    for i in range(0, len(map)):
+        for j in range(0, len(map[i])):
+            if map[i][j] == 3:
+                return [j, i]
+            else:
+                continue
 
 class Maze():
     def __init__(self, map) -> None:
@@ -72,8 +81,24 @@ class Maze():
     def print_dim(self):
         print(self.map_width, self.map_height)
 
-lab = Maze(MAP)
 
+class Player(Maze):
+    def __init__(self) -> None:
+        super().__init__(MAP)
+        self.color = blue
+        self.radius = self.block_width/4
+        self.center = (start_pos(self.map)[0]*self.block_width+self.block_width/2,
+                        start_pos(self.map)[1]*self.block_height+self.block_height/2)
+        #self.center = [x*self.block_width for x in start_pos(self.map)]
+        
+    def draw(self):
+        pygame.draw.circle(screen, self.color, self.center, self.radius)
+
+
+lab = Maze(MAP)
+player = Player()
+
+print(player.center)
 
 def loop():
     
@@ -88,6 +113,7 @@ def loop():
             
         
         lab.draw()
+        player.draw()
         pygame.display.update()
             
 if __name__ == '__main__':
