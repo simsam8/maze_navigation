@@ -88,30 +88,38 @@ class Player(Maze):
         self.color = blue
         self.radius = self.block_width/4
         self.position = start_pos(self.map)
-        self.center = (self.position[0]*self.block_width+self.block_width/2,
-                        self.position[1]*self.block_height+self.block_height/2)
+        self.dimension = (self.block_width/2, self.block_height/2)
+        self.coords = (self.position[0]*self.block_width+self.block_width/4,
+                        self.position[1]*self.block_height+self.block_height/4)
+        self.center = (self.position[0]*self.block_width,
+                        self.position[1]*self.block_height)
+        #self.center = (self.position[0]*self.block_width+self.block_width/2,
+        #                self.position[1]*self.block_height+self.block_height/2)
+        self.object = pygame.Rect(self.coords, self.dimension)
         
     def draw(self):
-        pygame.draw.circle(screen, self.color, self.center, self.radius)
+        pygame.draw.rect(screen, self.color, self.object)
+        #pygame.draw.circle(screen, self.color, self.center, self.radius)
         
     def update_pos(self, direction):
         if direction == 'u':
             self.position[1] -= 1
-            self.center = (self.position[0]*self.block_width+self.block_width/2,
-                        self.position[1]*self.block_height+self.block_height/2)
+            self.coords = (self.position[0]*self.block_width+self.block_width/4,
+                        self.position[1]*self.block_height+self.block_height/4)
         if direction == 'd':
             self.position[1] += 1
-            self.center = (self.position[0]*self.block_width+self.block_width/2,
-                        self.position[1]*self.block_height+self.block_height/2)
+            self.coords = (self.position[0]*self.block_width+self.block_width/4,
+                        self.position[1]*self.block_height+self.block_height/4)
         if direction == 'l':
             self.position[0] -= 1
-            self.center = (self.position[0]*self.block_width+self.block_width/2,
-                        self.position[1]*self.block_height+self.block_height/2)
+            self.coords = (self.position[0]*self.block_width+self.block_width/4,
+                        self.position[1]*self.block_height+self.block_height/4)
         if direction == 'r':
             self.position[0] += 1
-            self.center = (self.position[0]*self.block_width+self.block_width/2,
-                        self.position[1]*self.block_height+self.block_height/2)
+            self.coords = (self.position[0]*self.block_width+self.block_width/4,
+                        self.position[1]*self.block_height+self.block_height/4)
         
+        self.object.update(self.coords, self.dimension)
         
         print(self.position)
         print(self.center)
@@ -126,7 +134,7 @@ def loop():
     
     running = True
     
-    screen.fill((0,0,0))
+    screen.fill(black)
     
     while running:
         for event in pygame.event.get():
@@ -148,6 +156,7 @@ def loop():
         lab.draw()
         player.draw()
         pygame.display.update()
+        screen.fill(black)
             
 if __name__ == '__main__':
     loop()
