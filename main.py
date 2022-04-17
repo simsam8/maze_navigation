@@ -17,6 +17,8 @@ cell_colors = {
 
 pygame.init()
 
+CLOCK = pygame.time.Clock()
+
 MAP_WIDTH, MAP_HEIGHT = 10, 10
 MAP = mg.generate_maze(MAP_WIDTH, MAP_HEIGHT)
 SCREEN_INFO = pygame.display.Info()
@@ -44,6 +46,8 @@ class Maze():
         self.colors = cell_colors
         self.block_height = HEIGHT/self.map_height
         self.block_width = WIDTH/self.map_width
+        self.block_thickness = int(self.block_width*0.1)
+        print(self.block_thickness)
         
     def draw(self):
         blocks =  []
@@ -75,7 +79,7 @@ class Maze():
             
         for x in blocks:
             #print(x)
-            pygame.draw.rect(screen, self.colors[x[1]], x[0], width=10)
+            pygame.draw.rect(screen, self.colors[x[1]], x[0], width=self.block_thickness)
         
     
     def print_dim(self):
@@ -174,6 +178,8 @@ def loop():
     screen.fill(black)
     
     while running:
+        CLOCK.tick(30)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return pygame.quit()
