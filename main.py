@@ -93,36 +93,73 @@ class Player(Maze):
                         self.position[1]*self.block_height+self.block_height/4)
         self.center = (self.position[0]*self.block_width,
                         self.position[1]*self.block_height)
-        #self.center = (self.position[0]*self.block_width+self.block_width/2,
-        #                self.position[1]*self.block_height+self.block_height/2)
         self.object = pygame.Rect(self.coords, self.dimension)
         
     def draw(self):
         pygame.draw.rect(screen, self.color, self.object)
-        #pygame.draw.circle(screen, self.color, self.center, self.radius)
+    
+    # Check if player collides with wall    
+    def wall_collision(self):
+        if self.map[self.position[1]][self.position[0]] == 1:
+            #print('Wall collision')
+            return True
         
+
+    def win(self):
+        if self.map[self.position[1]][self.position[0]] == 4:
+            print('YOU WIN')
+            return True
+        
+    # Check if player is out of bounds
+    def collision_check(self):
+        if self.position[0] < 0:
+            self.position[0] += 1
+        if self.position[1] < 0:
+            self.position[1] += 1
+        if self.position[0] > self.map_width-1:
+            self.position[0] -= 1
+        if self.position[1] > self.map_height-1:
+            self.position[1] -= 1
+    
+    # Updates the player's position 
     def update_pos(self, direction):
         if direction == 'u':
             self.position[1] -= 1
+            self.collision_check()
+            if self.wall_collision() == True:
+                self.position[1] += 1
             self.coords = (self.position[0]*self.block_width+self.block_width/4,
                         self.position[1]*self.block_height+self.block_height/4)
+        
         if direction == 'd':
             self.position[1] += 1
+            self.collision_check()
+            if self.wall_collision() == True:
+                self.position[1] -= 1
             self.coords = (self.position[0]*self.block_width+self.block_width/4,
                         self.position[1]*self.block_height+self.block_height/4)
+        
         if direction == 'l':
             self.position[0] -= 1
+            self.collision_check()
+            if self.wall_collision() == True:
+                self.position[0] += 1
             self.coords = (self.position[0]*self.block_width+self.block_width/4,
                         self.position[1]*self.block_height+self.block_height/4)
+        
         if direction == 'r':
             self.position[0] += 1
+            self.collision_check()
+            if self.wall_collision() == True:
+                self.position[0] -= 1
             self.coords = (self.position[0]*self.block_width+self.block_width/4,
                         self.position[1]*self.block_height+self.block_height/4)
         
         self.object.update(self.coords, self.dimension)
         
-        print(self.position)
-        print(self.center)
+        #print(self.position)
+        #print(self.map[self.position[1]][self.position[0]])
+        #print(self.center)
 
 
 lab = Maze(MAP)
@@ -157,6 +194,9 @@ def loop():
         player.draw()
         pygame.display.update()
         screen.fill(black)
+        
+        if player.win() == True:
+            running = False
             
 if __name__ == '__main__':
     loop()
