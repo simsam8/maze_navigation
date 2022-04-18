@@ -36,6 +36,15 @@ def start_pos(map):
                 return [j, i]
             else:
                 continue
+            
+# Find end position in maze         
+def end_pos(map):
+    for i in range(0, len(map)):
+        for j in range(0, len(map[i])):
+            if map[i][j] == 4:
+                return [j, i]
+            else:
+                continue
 
 class Maze():
     def __init__(self, map) -> None:
