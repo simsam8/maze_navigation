@@ -81,9 +81,6 @@ class Maze():
             #print(x)
             pygame.draw.rect(screen, self.colors[x[1]], x[0], width=self.block_thickness)
         
-    
-    def print_dim(self):
-        print(self.map_width, self.map_height)
 
 
 class Player(Maze):
