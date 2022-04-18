@@ -14,7 +14,6 @@ cell_colors = {
 }
 
 
-
 pygame.init()
 
 CLOCK = pygame.time.Clock()

@@ -21,7 +21,6 @@ def surrondingCells(rand_wall):
     
     return s_cells
 
-
 def delete_wall(rand_wall):
     for wall in walls:
         if (wall[0] == rand_wall[0] and wall[1] == rand_wall[1]):
