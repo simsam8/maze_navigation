@@ -1,7 +1,14 @@
 import maze_generator as mg
 import math
 
+# Refrence for A* search
+# https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
+
 maze = mg.generate_maze(5,5)
+
+class CellNode:
+    def __init__(self) -> None:
+        pass
 
 def start_pos(map):
     for i in range(0, len(map)):
