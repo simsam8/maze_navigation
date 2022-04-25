@@ -17,6 +17,8 @@ cell_colors = {
 pygame.init()
 
 CLOCK = pygame.time.Clock()
+timer_event = pygame.USEREVENT+1
+pygame.time.set_timer(timer_event, 1000)
 
 MAP_WIDTH, MAP_HEIGHT = 10, 10
 MAP = mg.generate_maze(MAP_WIDTH, MAP_HEIGHT)
@@ -45,6 +47,17 @@ def end_pos(map):
                 return [j, i]
             else:
                 continue
+            
+# Counts number of a certain cell type
+def count_celltype(map, cell):
+    count = 0
+    for x in map:
+        for y in x:
+            if y == cell:
+                count += 1
+                
+    return count
+
 
 class Maze():
     def __init__(self, map) -> None:
@@ -55,7 +68,7 @@ class Maze():
         self.block_height = HEIGHT/self.map_height
         self.block_width = WIDTH/self.map_width
         self.block_thickness = int(self.block_width*0.1)
-        print(self.block_thickness)
+        #print(self.block_thickness)
         
     def draw(self):
         blocks =  []
@@ -87,9 +100,26 @@ class Maze():
             
         for x in blocks:
             #print(x)
-            pygame.draw.rect(screen, self.colors[x[1]], x[0], width=self.block_thickness)
+            pygame.draw.rect(screen, self.colors[x[1]], x[0]) # Optional: width=self.block_thickness
         
 
+# Stop clock timer class 
+class Timer(Maze):
+    def __init__(self) -> None:
+        super().__init__(MAP)
+        self.color = blue
+        self.counter = self.map_width
+        self.font = pygame.font.SysFont(None, 100)
+        self.text = self.font.render(str(self.counter), True, self.color)
+        
+    def update_counter(self):
+        self.counter -= 1
+        self.text = self.font.render(str(self.counter), True, self.color)
+        
+    
+    def draw(self):
+        screen.blit(self.text, (self.block_width/2,self.block_height/2))
+        
 
 class Player(Maze):
     def __init__(self) -> None:
@@ -173,6 +203,7 @@ class Player(Maze):
 
 lab = Maze(MAP)
 player = Player()
+stop_clock = Timer()
 
 
 
@@ -189,6 +220,14 @@ def loop():
             if event.type == pygame.QUIT:
                 return pygame.quit()
             
+            # Timer events
+            if event.type == timer_event:
+                stop_clock.update_counter()
+                if stop_clock.counter == 0:
+                    pygame.time.set_timer(timer_event, 0)
+                    return pygame.quit()
+            
+            # Check for player movement
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     player.update_pos('u')
@@ -201,9 +240,11 @@ def loop():
                     
             
         
+        # Draw and fill screen
         lab.draw()
         player.draw()
-        pygame.display.update()
+        stop_clock.draw()
+        pygame.display.flip()
         screen.fill(black)
         
         if player.win() == True:
