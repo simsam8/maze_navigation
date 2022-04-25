@@ -7,6 +7,7 @@
 - Create a playable character --> DONE
 - Implement collision --> DONE
 - Win condition --> DONE
-- Simple search algorithm --> TODO
-- Further implementation of other search algorithms --> TODO
+- Game timer --> DONE
+- A* search algorithm --> WIP
+- Start menu and win/lose screen --> TODO
 - 
