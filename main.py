@@ -225,6 +225,7 @@ def loop():
                 stop_clock.update_counter()
                 if stop_clock.counter == 0:
                     pygame.time.set_timer(timer_event, 0)
+                    print('YOU LOSE!')
                     return pygame.quit()
             
             # Check for player movement
