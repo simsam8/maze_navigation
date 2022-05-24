@@ -1,5 +1,6 @@
 import pygame
 import maze_generator as mg
+from random import randrange as rr
 
 white = (255,255,255)
 black = (0,0,0)
@@ -20,11 +21,11 @@ CLOCK = pygame.time.Clock()
 timer_event = pygame.USEREVENT+1
 pygame.time.set_timer(timer_event, 1000)
 
-MAP_WIDTH, MAP_HEIGHT = 10, 10
+MAP_WIDTH, MAP_HEIGHT = 30, 30
 MAP = mg.generate_maze(MAP_WIDTH, MAP_HEIGHT)
 SCREEN_INFO = pygame.display.Info()
-WIDTH = SCREEN_INFO.current_w*0.5
-HEIGHT = SCREEN_INFO.current_h*0.5
+WIDTH = SCREEN_INFO.current_w
+HEIGHT = SCREEN_INFO.current_h
 RATIO = WIDTH/HEIGHT
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -214,6 +215,9 @@ def loop():
     screen.fill(black)
     
     while running:
+        # Epilepsy
+        #seiz = (rr(0,256), rr(0,256), rr(0,256))
+        #lab.colors[1] = seiz
         CLOCK.tick(30)
         
         for event in pygame.event.get():
